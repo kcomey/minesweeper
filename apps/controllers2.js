@@ -1,12 +1,11 @@
-'use strict';
-
-/* Controllers */
-
-
 var appControllers = angular.module('appControllers', []);
 
 appControllers.controller('MinesweeperController',
  ['$scope', function ($scope) {
+    $scope.minefield = createMinefield();
+}]);
+
+function createMinefield() {
     var minefield = {};
     minefield.rows = [];
 
@@ -24,16 +23,20 @@ appControllers.controller('MinesweeperController',
         minefield.rows.push(row);
     }
 
+    placeRandomMine(minefield);
+
+    return minefield;
+}
+
+function getSpot(minefield, row, column) {
+    return minefield.rows[row].spots[column];
+}
+
+function placeRandomMine(minefield) {
     var row = Math.round(Math.random() * 8);
     var column = Math.round(Math.random() * 8);
-    var spot = minefield.rows[row].spots[column];
-    console.log(spot);
-
+    var spot = getSpot(minefield, row, column);
     spot.content = "mine";
-
-    $scope.minefield = minefield;
-}]);
-
-
+}
 
 

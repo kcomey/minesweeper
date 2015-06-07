@@ -8,6 +8,6 @@ app.service('placeRandomMineService', function(minefield) {
   var row = Math.round(Math.random() * 8);
   var column = Math.round(Math.random() * 8);
   var spot = minefield.rows[row].spots[column];
-  spot.content = "mine";
+  return spot.content = "mine";
 })
 
