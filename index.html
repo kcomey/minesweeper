@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html data-ng-app="app">
+<head>
+  <title>Minesweeper</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+</head>
+<body>
+<center>
+<h2>Welcome to Minesweeper {{ 1 + 1 }}</h2>
+
+<div ng-controller="MinesweeperController">
+    <table border="1">
+        <tr ng-repeat="row in minefield.rows">
+            <td ng-repeat="spot in row.spots">
+                {{spot.isCovered}}
+            </td>
+        </tr>
+    </table>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js">
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-route.min.js">
+</script>
+<script src="apps/app.js" type="text/javascript"></script>
+<script src="apps/controllers.js" type="text/javascript"></script>
+</center>
+</body>
+</html>
