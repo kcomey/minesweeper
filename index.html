@@ -7,11 +7,12 @@
 <body>
 <center>
 <h2>Welcome to Minesweeper {{ 1 + 1 }}</h2>
+<h3 data-ng-if="isWinMessageVisible">You won!</h3>
 
 <div ng-controller="MinesweeperController">
   <table class="minefield">
     <tr ng-repeat="row in minefield.rows">
-      <td ng-repeat="spot in row.spots" ng-click="spot.isCovered = false">
+      <td ng-repeat="spot in row.spots" ng-click="uncoverSpot(spot)">
         <img ng-if="spot.isCovered" src="images/covered.png" />
         <img ng-if="!spot.isCovered && spot.content == 'empty'" src="images/empty.png" />
         <img ng-if="!spot.isCovered && spot.content == 'mine'" src="images/mine.png" />

@@ -27,6 +27,13 @@ appControllers.controller('MinesweeperController',
 
     calculateAllNumbers(minefield);
 
+    $scope.uncoverSpot = function(spot) {
+      spot.isCovered = false;
+      if(hasWon($scope.minefield)) {
+        $scope.isWinMessageVisible = true;
+      }
+    };
+
     $scope.minefield = minefield;
 }]);
 
@@ -133,6 +140,19 @@ function calculateNumber(minefield, row, column) {
   if (mineCount > 0) {
     spot.content = mineCount;
   }
+}
+
+function hasWon(minefield) {
+    for(var y = 0; y < 9; y++) {
+        for(var x = 0; x < 9; x++) {
+            var spot = getSpot(minefield, y, x);
+            if(spot.isCovered && spot.content != "mine") {
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 
 
