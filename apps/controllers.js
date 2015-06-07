@@ -24,10 +24,26 @@ appControllers.controller('MinesweeperController',
         minefield.rows.push(row);
     }
 
-    placeRandomMine(minefield);
+    placeManyRandomMines(minefield);
+
+    calculateAllNumbers(minefield);
 
     $scope.minefield = minefield;
 }]);
+
+function calculateAllNumbers(minefield) {
+    for(var y = 0; y < 9; y++) {
+        for(var x = 0; x < 9; x++) {
+            calculateNumber(minefield, x, y);
+        }
+    }
+}
+
+function placeManyRandomMines(minefield) {
+    for(var i = 0; i < 10; i++) {
+        placeRandomMine(minefield);
+    }
+}
 
 function getSpot(minefield, row, column) {
     return minefield.rows[row].spots[column];
@@ -38,6 +54,85 @@ function placeRandomMine(minefield) {
     var column = Math.round(Math.random() * 8);
     var spot = getSpot(minefield, row, column);
     spot.content = "mine";
+}
+
+function calculateNumber(minefield, row, column) {
+  var thisSpot = getSpot(minefield, row,column);
+
+  if(thisSpot.content === 'mine') {
+    return;
+  }
+
+  var mineCount =0;
+
+  // Check row above if not the frst row
+  if (row > 0) {
+    // check column to left if not the first column
+    if (column > 0) {
+      // get spot above and to the left
+      var spot = getSpot(minefield, row -1, column -1);
+      if (spot.content === 'mine') {
+        mineCount++;
+      }
+    }
+    // get spot directly above
+    var spot = getSpot(minefield, row -1, column);
+    if (spot.content === 'mine') {
+      mineCount++;
+    }
+
+    // get column to right if not the last column
+    if (column < 8) {
+      // get spot above and to the right
+      var spot = getSpot(minefield, row -1, column + 1);
+      if (spot.content === 'mine') {
+        mineCount++;
+      }
+    }
+  }
+  // get column to the left if not the first column
+  if (column > 0) {
+    // get the spot to the left
+    var spot = getSpot(minefield, row, column - 1);
+    if (spot.content === 'mine') {
+      mineCount++;
+    }
+  }
+  // get column to the right if not the last column
+  if (column < 8) {
+    // get spot to the right
+    var spot = getSpot(minefield, row, column + 1);
+    if (spot.content === 'mine') {
+      mineCount++;
+    }
+  }
+  // get row below if not the last row
+  if (row < 8) {
+    // get column to the left if not the first column
+    if (column > 0) {
+      // get spot below and to the left
+      var spot = getSpot(minefield, row + 1, column - 1);
+      if (spot.content === 'mine') {
+        mineCount++;
+      }
+    }
+    // get spot directly below
+    var spot = getSpot(minefield, row + 1, column);
+    if (spot.content === 'mine') {
+      mineCount++;
+    }
+    // get column to the right if not last column
+    if (column < 8) {
+      var spot = getSpot(minefield, row + 1, column + 1);
+      if (spot.content === 'mine') {
+        mineCount++;
+      }
+    }
+  }
+
+  if (mineCount > 0) {
+    thisSpot.content = mineCount;
+  }
 }
 
 
