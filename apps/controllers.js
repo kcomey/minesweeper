@@ -24,15 +24,21 @@ appControllers.controller('MinesweeperController',
         minefield.rows.push(row);
     }
 
-    var row = Math.round(Math.random() * 8);
-    var column = Math.round(Math.random() * 8);
-    var spot = minefield.rows[row].spots[column];
-    console.log(spot);
-
-    spot.content = "mine";
+    placeRandomMine(minefield);
 
     $scope.minefield = minefield;
 }]);
+
+function getSpot(minefield, row, column) {
+    return minefield.rows[row].spots[column];
+}
+
+function placeRandomMine(minefield) {
+    var row = Math.round(Math.random() * 8);
+    var column = Math.round(Math.random() * 8);
+    var spot = getSpot(minefield, row, column);
+    spot.content = "mine";
+}
 
 
 
