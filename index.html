@@ -3,16 +3,19 @@
 <head>
   <title>Minesweeper</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
 <center>
 <h2>Welcome to Minesweeper {{ 1 + 1 }}</h2>
 
 <div ng-controller="MinesweeperController">
-    <table border="1">
+    <table class="minefield">
         <tr ng-repeat="row in minefield.rows">
-            <td ng-repeat="spot in row.spots">
-                {{spot.isCovered}}
+            <td data-ng-repeat="spot in row.spots" data-ng-click="spot.isCovered = false">
+                <img ng-if="spot.isCovered" src="images/covered.png">
+                <img ng-if="!spot.isCovered" && spot.content === 'empty' src="images/empty.png">
+                <img ng-if="!spot.isCovered && spot.content === 'mine'" src="images/mine.png">
             </td>
         </tr>
     </table>
