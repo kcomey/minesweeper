@@ -6,6 +6,7 @@ var appControllers = angular.module('appControllers', []);
 
 appControllers.controller('MinesweeperController',
  ['$scope', function ($scope) {
+    $scope.gameStarted = false;
     var minefield = {};
     minefield.rows = [];
 
@@ -17,6 +18,7 @@ appControllers.controller('MinesweeperController',
             var spot = {};
             spot.isCovered = true;
             spot.content = "empty";
+            spot.location = {"row": i, "col": j};
             row.spots.push(spot);
         }
 
@@ -28,7 +30,11 @@ appControllers.controller('MinesweeperController',
     calculateAllNumbers(minefield);
 
     $scope.uncoverSpot = function(spot) {
+      // Adding function to turn all the other empty tiles over
       spot.isCovered = false;
+      if (spot.content === "empty") {
+        checkGridForEmptys(spot, minefield);
+      }
       if(hasWon($scope.minefield)) {
         $scope.isWinMessageVisible = true;
       }
@@ -36,6 +42,72 @@ appControllers.controller('MinesweeperController',
 
     $scope.minefield = minefield;
 }]);
+
+function checkGridForEmptys(spot, minefield) {
+  var row = spot.location.row;
+  var column = spot.location.col;
+
+  if(spot.content === "empty") {
+      spot.isCovered = false;
+  }
+
+  // Get square directly above
+  if (row > 0) {
+    spot = getSpot(minefield, row -1, column);
+      if ((spot.content === "empty") && (spot.isCovered === true)) {
+        checkGridForEmptys(spot, minefield);
+      }
+   }
+   // Get square up and left
+   if(column > 0 && row > 0) {
+    spot = getSpot(minefield, row -1, column -1);
+      if ((spot.content === "empty") && (spot.isCovered === true)) {
+        checkGridForEmptys(spot, minefield);
+    }
+  }
+  // Get square up and right
+   if(column < 8 && row > 0) {
+    spot = getSpot(minefield, row -1, column +1);
+      if ((spot.content === "empty") && (spot.isCovered === true)) {
+        checkGridForEmptys(spot, minefield);
+    }
+  }
+  // Get square to the left
+  if (column > 0) {
+    spot = getSpot(minefield, row, column - 1);
+    if ((spot.content === 'empty') && (spot.isCovered === true)) {
+      checkGridForEmptys(spot, minefield);
+    }
+  }
+  // Get square to the right
+  if (column < 8) {
+    spot = getSpot(minefield, row, column + 1);
+    if ((spot.content === 'empty') && (spot.isCovered === true)) {
+      checkGridForEmptys(spot, minefield);
+    }
+  }
+  // Get square below and left
+  if (row < 8 && column > 0) {
+    spot = getSpot(minefield, row + 1, column - 1);
+      if ((spot.content === 'empty') && (spot.isCovered === true)) {
+        checkGridForEmptys(spot, minefield);
+      }
+    }
+    // Get square below
+    if (row < 8) {
+      spot = getSpot(minefield, row + 1, column);
+        if ((spot.content === 'empty') && (spot.isCovered === true)) {
+          checkGridForEmptys(spot, minefield);
+        }
+    }
+    // Get square below and right
+    if (column < 8 && row < 8) {
+      spot = getSpot(minefield, row + 1, column + 1);
+      if ((spot.content === 'empty') && (spot.isCovered === true)) {
+       checkGridForEmptys(spot, minefield);
+      }
+    }
+  }
 
 function calculateAllNumbers(minefield) {
     for(var y = 0; y < 9; y++) {

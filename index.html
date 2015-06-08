@@ -2,14 +2,26 @@
 <html data-ng-app="app">
 <head>
   <title>Minesweeper</title>
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
 <center>
-<h2>Welcome to Minesweeper {{ 1 + 1 }}</h2>
+<h2>Welcome to Minesweeper {{ name | uppercase }}</h2>
 <h3 data-ng-if="isWinMessageVisible">You won!</h3>
+<h3 data-ng-if="isLoseMessageVisible">You lose!</h3>
 
-<div ng-controller="MinesweeperController">
+<div ng-init="startGame = true" ng-show="startGame">
+Enter your name: <input type="text" ng-model="name">
+<input class="btn btn-xs btn-default" type="button" value="Start
+Game"
+ng-click="startGame = !startGame; gameStarted = true">
+</div>
+
+<div ng-controller="MinesweeperController" ng-if="gameStarted">
+  <table>
+  <tr><th>Score: {{ score}}</th><th>Timer: {{ timer }}</th></tr>
+  <table/>
   <table class="minefield">
     <tr ng-repeat="row in minefield.rows">
       <td ng-repeat="spot in row.spots" ng-click="uncoverSpot(spot)">

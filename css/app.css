@@ -4,5 +4,9 @@
 }
 
 .minefield td {
-    padding:0
+    padding:0;
+}
+
+th {
+  padding: 20px;
 }
