@@ -14,33 +14,47 @@ Need a win and lose
 
 var appControllers = angular.module('appControllers', []);
 
+function startGame() {
+  class Game {
+    constructor() {
+      this.gameOver = false;
+      this.minefield = {};
+      this.minefield.rows = [];
+      this.createGame = function() {
+        for(var i = 0; i < 9; i++) {
+          var row = {};
+          row.spots = [];
+
+          for(var j = 0; j < 9; j++) {
+              var spot = {};
+              spot.isCovered = true;
+              spot.content = "empty";
+              spot.location = {"row": i, "col": j};
+              row.spots.push(spot);
+          }
+
+          this.minefield.rows.push(row);
+        }
+
+        placeManyRandomMines(this.minefield);
+
+        calculateAllNumbers(this.minefield);
+      }
+    }
+  }
+  var game = new Game();
+  game.createGame();
+  return game;
+};
+
 appControllers.controller('MinesweeperController',
  ['$scope', function ($scope) {
     $scope.gameStarted = false;
 
     var level = $scope.model.id;
 
-    var minefield = {};
-    minefield.rows = [];
-
-    for(var i = 0; i < 9; i++) {
-        var row = {};
-        row.spots = [];
-
-        for(var j = 0; j < 9; j++) {
-            var spot = {};
-            spot.isCovered = true;
-            spot.content = "empty";
-            spot.location = {"row": i, "col": j};
-            row.spots.push(spot);
-        }
-
-        minefield.rows.push(row);
-    }
-
-    placeManyRandomMines(minefield);
-
-    calculateAllNumbers(minefield);
+    var game = startGame();
+    var minefield = game.minefield;
 
     $scope.uncoverSpot = function(spot) {
       // Adding function to turn all the other empty tiles over
