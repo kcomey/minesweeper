@@ -1,52 +1,61 @@
 <!DOCTYPE html>
 <html data-ng-app="app">
-<head>
-  <title>Minesweeper</title>
-  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/app.css">
-</head>
-<body>
-<center>
-<h2>Welcome to Minesweeper {{ name | uppercase }}</h2>
-<h3 data-ng-if="isWinMessageVisible">You won!</h3>
-<h3 data-ng-if="isLoseMessageVisible">You lose!</h3>
+  <head>
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/app.css">
+  </head>
+  <body>
+    <center>
+    <h2>Welcome to Minesweeper {{ name | uppercase }}</h2>
+    <h3 data-ng-if="isWinMessageVisible">You won!</h3>
+    <h3 data-ng-show="isLoseMessageVisible">You lose!</h3>
 
-<div ng-init="startGame = true" ng-show="startGame">
-Enter your name: <input type="text" ng-model="name">
-<input class="btn btn-xs btn-default" type="button" value="Start
-Game"
-ng-click="startGame = !startGame; gameStarted = true">
-</div>
+    <div ng-init="startGame = true" ng-show="startGame">
+      <table>
+      <tr>
+        <td>Enter your name:</td><td><input type="text" ng-model="name" /></td>
+      </tr>
+      <tr>
+        <td>Choose level:</td><td><select ng-model="model.id">
+      <option value="beginner" ng-init="model.id='beginner'">Beginner</option>
+      <option value="intermediate">Intermediate</option>
+      <option value="advanced">Advanced</option>
+    </select></td>
+      </tr>
+      <tr>
+        <td></td><td>  <input class="btn btn-xs btn-default" type="button" value="Start
+    Game"
+    ng-click="startGame = !startGame; gameStarted = true"></td>
+      </tr>
+    </table>
+    </div>
 
-<div ng-controller="MinesweeperController" ng-if="gameStarted">
-  <table>
-  <tr><th>Score: {{ score}}</th><th>Timer: {{ timer }}</th></tr>
-  <table/>
-  <table class="minefield">
-    <tr ng-repeat="row in minefield.rows">
-      <td ng-repeat="spot in row.spots" ng-click="uncoverSpot(spot)">
-        <img ng-if="spot.isCovered" src="images/covered.png" />
-        <img ng-if="!spot.isCovered && spot.content == 'empty'" src="images/empty.png" />
-        <img ng-if="!spot.isCovered && spot.content == 'mine'" src="images/mine.png" />
-        <img data-ng-if="!spot.isCovered && spot.content == 1" src="images/number-1.png">
-        <img data-ng-if="!spot.isCovered && spot.content == 3" src="images/number-3.png">
-        <img data-ng-if="!spot.isCovered && spot.content == 2" src="images/number-2.png">
-        <img data-ng-if="!spot.isCovered && spot.content == 4" src="images/number-4.png">
-        <img data-ng-if="!spot.isCovered && spot.content == 5" src="images/number-5.png">
-        <img data-ng-if="!spot.isCovered && spot.content == 6" src="images/number-6.png">
-        <img data-ng-if="!spot.isCovered && spot.content == 7" src="images/number-7.png">
-        <img data-ng-if="!spot.isCovered && spot.content == 8" src="images/number-8.png">
-      </td>
-    </tr>
-  </table>
-</div>
-
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js">
-</script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-route.min.js">
-</script>
-<script src="apps/app.js" type="text/javascript"></script>
-<script src="apps/controllers.js" type="text/javascript"></script>
-</center>
-</body>
+    <div ng-if="gameStarted" ng-controller="MinesweeperController">
+      <table class="minefield">
+        <tr ng-repeat="row in minefield.rows">
+          <td ng-repeat="spot in row.spots" ng-click="uncoverSpot(spot)">
+            <img ng-if="spot.isCovered" src="images/covered.png" />
+            <img ng-if="!spot.isCovered && spot.content == 'empty'" src="images/empty.png" />
+            <img ng-if="!spot.isCovered && spot.content == 'mine'" src="images/mine.png" />
+            <img data-ng-if="!spot.isCovered && spot.content == 1" src="images/number-1.png">
+            <img data-ng-if="!spot.isCovered && spot.content == 3" src="images/number-3.png">
+            <img data-ng-if="!spot.isCovered && spot.content == 2" src="images/number-2.png">
+            <img data-ng-if="!spot.isCovered && spot.content == 4" src="images/number-4.png">
+            <img data-ng-if="!spot.isCovered && spot.content == 5" src="images/number-5.png">
+            <img data-ng-if="!spot.isCovered && spot.content == 6" src="images/number-6.png">
+            <img data-ng-if="!spot.isCovered && spot.content == 7" src="images/number-7.png">
+            <img data-ng-if="!spot.isCovered && spot.content == 8" src="images/number-8.png">
+          </td>
+        </tr>
+      </table>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js">
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-route.min.js">
+    </script>
+    <script src="apps/app.js" type="text/javascript"></script>
+    <script src="apps/controllers.js" type="text/javascript"></script>
+    </center>
+  </body>
 </html>

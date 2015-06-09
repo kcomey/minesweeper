@@ -2,11 +2,24 @@
 
 /* Controllers */
 
+/*TODO
+Put all the code in controllers, I have loose functions
+Add a timer and score keeper
+  <table>
+    <tr><th>Score: {{ score }}</th><th>Timer: {{ timer }}</th></tr>
+  <table/>
+Add in the other game levels
+Need a win and lose
+  */
+
 var appControllers = angular.module('appControllers', []);
 
 appControllers.controller('MinesweeperController',
  ['$scope', function ($scope) {
     $scope.gameStarted = false;
+
+    var level = $scope.model.id;
+
     var minefield = {};
     minefield.rows = [];
 
@@ -34,6 +47,12 @@ appControllers.controller('MinesweeperController',
       spot.isCovered = false;
       if (spot.content === "empty") {
         checkGridForEmptys(spot, minefield);
+      }
+      if (spot.content === "mine") {
+        // you lose
+        console.log('you landed on a mine');
+        $scope.isLoseMessageVisible = true;
+        $scope.gameStarted = true;
       }
       if(hasWon($scope.minefield)) {
         $scope.isWinMessageVisible = true;
@@ -110,9 +129,9 @@ function checkGridForEmptys(spot, minefield) {
   }
 
 function calculateAllNumbers(minefield) {
-    for(var y = 0; y < 9; y++) {
-        for(var x = 0; x < 9; x++) {
-            calculateNumber(minefield, x, y);
+    for(var i = 0; i < 9; i++) {
+        for(var j = 0; j < 9; j++) {
+            calculateNumber(minefield, j, i);
         }
     }
 }
@@ -144,7 +163,7 @@ function calculateNumber(minefield, row, column) {
 
   var mineCount = 0;
 
-  // Check row above if not the frst row
+  // Check row above if not the first row
   if (row > 0) {
     // check column to left if not the first column
     if (column > 0) {
@@ -215,17 +234,18 @@ function calculateNumber(minefield, row, column) {
 }
 
 function hasWon(minefield) {
-    for(var y = 0; y < 9; y++) {
-        for(var x = 0; x < 9; x++) {
-            var spot = getSpot(minefield, y, x);
+    for(var i = 0; i < 9; i++) {
+        for(var j = 0; j < 9; j++) {
+            var spot = getSpot(minefield, i, j);
             if(spot.isCovered && spot.content != "mine") {
                 return false;
             }
         }
     }
-
     return true;
 }
+
+
 
 
 
