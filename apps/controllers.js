@@ -42,7 +42,7 @@ function startGame() {
       }
     }
   }
-  var game = new Game();
+  let game = new Game();
   game.createGame();
   return game;
 };
@@ -50,6 +50,8 @@ function startGame() {
 appControllers.controller('MinesweeperController',
  ['$scope', function ($scope) {
     $scope.gameStarted = false;
+    var name = $scope.name;
+    var message = $scope.gameOverMessage;
 
     var level = $scope.model.id;
 
@@ -64,11 +66,12 @@ appControllers.controller('MinesweeperController',
       }
       if (spot.content === "mine") {
         // you lose
-        console.log('you landed on a mine');
-        $scope.isLoseMessageVisible = true;
-        $scope.gameStarted = true;
+        console.log('you landed on a mine' + name);
+        $scope.gameOverMessage = `Sorry ${name}, but you LOSE!`
+        game.gameOver = true;
       }
       if(hasWon($scope.minefield)) {
+        $scope.gameOverMessage = `Hooray ${name}, you WIN!`
         $scope.isWinMessageVisible = true;
       }
     };
@@ -122,6 +125,7 @@ function checkGridForEmptys(spot, minefield) {
   // Get square below and left
   if (row < 8 && column > 0) {
     spot = getSpot(minefield, row + 1, column - 1);
+    //spot = (minefield, row + 1, column - 1) => minefield.rows[row].spots[column];
       if ((spot.content === 'empty') && (spot.isCovered === true)) {
         checkGridForEmptys(spot, minefield);
       }
