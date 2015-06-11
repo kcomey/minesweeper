@@ -8,9 +8,6 @@
   <body>
     <center>
     <h2>Welcome to Minesweeper {{ name | uppercase }}</h2>
-    <div>
-      <h3 ng-model="gameOverMessage">{{ gameOverMessage }}</h3>
-    </div>
 
     <div ng-init="startGame = true" ng-show="startGame">
       <table>
@@ -33,6 +30,9 @@
     </div>
 
     <div ng-if="gameStarted" ng-controller="MinesweeperController">
+      <div>
+        <h3 ng-model="gameOverMessage">{{ gameOverMessage }}</h3>
+      </div>
       <table class="minefield">
         <tr ng-repeat="row in minefield.rows">
           <td ng-repeat="spot in row.spots" ng-click="uncoverSpot(spot)">

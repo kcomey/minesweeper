@@ -9,7 +9,7 @@ Add a timer and score keeper
     <tr><th>Score: {{ score }}</th><th>Timer: {{ timer }}</th></tr>
   <table/>
 Add in the other game levels
-Need a win and lose
+Clear game when you lose, reset button
   */
 
 var appControllers = angular.module('appControllers', []);
