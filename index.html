@@ -9,7 +9,7 @@
     <center>
     <h2>Welcome to Minesweeper {{ name | uppercase }}</h2>
     <div>
-      <h3>{{ gameOverMessage }}</h3>
+      <h3 ng-model="gameOverMessage">{{ gameOverMessage }}</h3>
     </div>
 
     <div ng-init="startGame = true" ng-show="startGame">
